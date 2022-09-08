@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -12,7 +11,7 @@ public class TechJobs {
 
     public static void main (String[] args) {
 
-        // Initialize our field map with key/name pairs
+        // This initializes the field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
         columnChoices.put("core competency", "Skill");
         columnChoices.put("employer", "Employer");
@@ -27,7 +26,7 @@ public class TechJobs {
 
         System.out.println("Welcome to LaunchCode's TechJobs App!");
 
-        // Allow the user to search until they manually quit
+        // User can continue search until manual quitting.
         while (true) {
 
             String actionChoice = getUserSelection("View jobs by (type 'x' to quit):", actionChoices);
@@ -43,8 +42,8 @@ public class TechJobs {
                 } else {
 
                     ArrayList<String> results = JobData.findAll(columnChoice);
-
-                    System.out.println("\n*** All " + columnChoices.get(columnChoice) + " Values ***");
+                    System.out.println();
+                    System.out.println("*** All " + columnChoices.get(columnChoice) + " Values ***");
 
                     // Print list of skills, employers, etc
                     for (String item : results) {
@@ -52,13 +51,14 @@ public class TechJobs {
                     }
                 }
 
-            } else { // choice is "search"
+            } else { // User chooses "search"
 
-                // How does the user want to search (e.g. by skill or employer)
+                // How does the user want to search?
                 String searchField = getUserSelection("Search by:", columnChoices);
 
                 // What is their search term?
-                System.out.println("\nSearch term:");
+                System.out.println();
+                System.out.println("Search term:");
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
@@ -86,8 +86,8 @@ public class TechJobs {
         }
 
         do {
-
-            System.out.println("\n" + menuHeader);
+            System.out.println();
+            System.out.println(menuHeader);
 
             // Print available choices
             for (int j = 0; j < choiceKeys.length; j++) {
@@ -119,7 +119,20 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-
-        System.out.println("printJobs is not implemented yet");
+        // This checks the somejobs arraylist parameter to see if it's empty.
+        if (someJobs.isEmpty()) {
+            System.out.print("No Results");
+        } else {
+            // This iterates over ArrayList of (hashmap) jobs. A nested loop loops over each hashmap.
+            for (int i = 0; i < someJobs.size(); i++) {
+                System.out.println();
+                System.out.println("*****");
+                //This prints each key pair/set on separate lines.
+                for (String key : someJobs.get(i).keySet()) {
+                    System.out.println(key + ": " + someJobs.get(i).get(key));
+                }
+                System.out.println("*****");
+            }
+        }
     }
 }

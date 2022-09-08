@@ -5,10 +5,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -69,17 +66,13 @@ public class JobData {
      * @return List of all jobs matching the criteria
      */
     public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String value) {
-
-        // load data, if not already loaded
         loadData();
-
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
         for (HashMap<String, String> row : allJobs) {
-
-            String aValue = row.get(column);
-
-            if (aValue.contains(value)) {
+            // Lowercase required
+            String aValue = row.get(column).toLowerCase();
+            if (aValue.contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
@@ -94,12 +87,24 @@ public class JobData {
      * @return      List of all jobs with at least one field containing the value
      */
     public static ArrayList<HashMap<String, String>> findByValue(String value) {
-
-        // load data, if not already loaded
         loadData();
-
-        // TODO - implement this method
-        return null;
+        // This makes a new arraylist that contains a hashmap to store job entry
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+        // Loop through alljobs
+        for (int i = 0; i < allJobs.size(); i++){
+            // Use a nested loop where the Map.Entry becomes job
+            for (Map.Entry<String,String> job : allJobs.get(i).entrySet()) {
+                String someValue = job.getValue();
+                // check if someValue contains the value (searchTerm)
+                if (someValue.toLowerCase().contains(value.toLowerCase())) {
+                    // Add job if it's not in alljobs, else skip it.
+                    if (!jobs.contains(allJobs.get(i))) {
+                        jobs.add(allJobs.get(i));
+                    }
+                }
+            }
+        }
+        return jobs;
     }
 
     /**
